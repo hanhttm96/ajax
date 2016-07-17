@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Title Page</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+	<style type="text/css">
+		#list-user {
+			list-style-type: none;
+			padding-left: 0;
+		}
+		#list-user li {
+			background-color: #eee;
+			padding: 0.3em 1em;
+			margin-bottom: 1em;
+			cursor: pointer;
+		}
+		#list-user li:hover {
+			color: #607D8B;
+			background-color: #DDD;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<h1 class="text-center">Welcome to ajax example</h1>
+		<h3 class="error alert-danger">
+		</h3>
+		<h2>List users</h2>
+		<ul id="list-user">
+			<!-- <li>ABbc</li>
+			<li>ABb</li>
+			<li>ABbc]]</li> -->
+		</ul>
+		<div class="user-info">
+			<p class="user-id-info"></p>
+			<p class="user-name-info"></p>
+			<p class="user-email-info"></p>
+		</div>
+	</div>
+	<!-- jQuery -->
+	<script src="//code.jquery.com/jquery.js"></script>
+	<!-- Bootstrap JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+	<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+		<script>
+		$( document ).ready(function() {
+			// API
+			var link = 'getUser.php';
+			$.ajax({
+				url: link,
+				type: 'GET',
+				dataType: 'json',
+				success: function(data) {
+					var html = '';
+					$.each(data, function(index, item) {
+						html += '<li id-data="'+ item.id_user + '">';
+							html += '<p class="user-name">';
+							html += item.name_user;
+							html += '</p>';
+							html += '<p class="user-email">';
+							html += item.email_user;
+							html += '</p>';
+						html += '</li>';
+					});
+					$('#list-user').append(html);
+				},
+				error: function (xhr, ajaxOptions, thrownError) {
+					$('.error').text(xhr.status + ' ' + thrownError);
+				}
+			});
+
+			setTimeout(function(){
+				$('#list-user li').on('click', function() {
+					var id_user = $(this).attr('id-data');
+					var linkid = 'getUserByID.php';
+					window.location = "http://localhost/detail.html?id=" +id_user;
+					// var user = {
+					// 	id: id_user
+					// }
+					// $.ajax({
+					// 	url: linkid,
+					// 	type: 'POST',
+					// 	data: user,
+					// 	dataType: 'json',
+					// 	success: function(data) {
+					// 		$('.user-id-info').text(data[0].id_user);
+					// 		$('.user-name-info').text(data[0].name_user);
+					// 		$('.user-email-info').text(data[0].email_user);
+					// 	}
+					// });
+				});
+			}, 500);
+		});
+		</script>
+</body>
+</html>
